@@ -15,9 +15,11 @@ def get_logger(name, filename, level=logging.WARNING):
     logger = logging.getLogger(name)
     logger.setLevel(level)
 
-    # stream = logging.StreamHandler()
-    # stream.setFormatter(FORMAT)
-    # logger.addHandler(stream)
+    # Log to std.syserr with higher level!
+    stream = logging.StreamHandler()
+    stream.setFormatter(FORMAT)
+    stream.setLevel(level + 10 if level <= 40 else level)
+    logger.addHandler(stream)
 
     fh = RotatingFileHandler(filename, maxBytes=10 * 1024 * 1024, backupCount=10)
     fh.setFormatter(FORMAT)
